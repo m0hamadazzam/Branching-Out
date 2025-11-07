@@ -29,6 +29,23 @@ def filter_users_by_email(users, email):
     return [user for user in users if user.get("email") == email]
 
 
+def print_results(results):
+    """Display filtered users in a clear formatted layout."""
+    if not results:
+        print("\n⚠️  No users found matching your criteria.\n")
+        return
+
+    print(f"\n✅ Found {len(results)} user(s):")
+    print("-" * 40)
+
+    for i, user in enumerate(results, start=1):
+        print(f"User #{i}")
+        print(f"  Name : {user.get('name', 'N/A')}")
+        print(f"  Age  : {user.get('age', 'N/A')}")
+        print(f"  Email: {user.get('email', 'N/A')}")
+        print("-" * 40)
+
+
 def main():
     users = load_users()
     if not users:
@@ -56,12 +73,7 @@ def main():
             else:
                 results = filter_users_by_email(users, value)
 
-            if results:
-                print(f"\nFound {len(results)} user(s):")
-                for i, user in enumerate(results, start=1):
-                    print(f"{i}. {user}")
-            else:
-                print("\nNo users found with that criteria.")
+            print_results(results)
 
         retry = input("\nWould you like to filter again? (y/n): ").strip().lower()
         if retry != "y":
